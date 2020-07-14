@@ -26,9 +26,9 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="jScrollPane2" alignment="1" pref="862" max="32767" attributes="0"/>
-                  <Group type="102" alignment="1" attributes="0">
-                      <Component id="jComboBox1" min="-2" pref="274" max="-2" attributes="0"/>
+                  <Component id="jScrollPane2" pref="862" max="32767" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Component id="jComboBox1" min="-2" pref="375" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="jButton1" min="-2" pref="370" max="-2" attributes="0"/>
                   </Group>
@@ -71,31 +71,19 @@
               <Font name="Segoe UI" size="16" style="0"/>
             </Property>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="10" rowCount="0">
-                <Column editable="false" title="R.br." type="java.lang.Object"/>
-                <Column editable="false" title="Jmbag" type="java.lang.Object"/>
-                <Column editable="false" title="Prezime" type="java.lang.Object"/>
-                <Column editable="false" title="Ime" type="java.lang.Object"/>
-                <Column editable="false" title="Vrsta" type="java.lang.Object"/>
-                <Column editable="false" title="Usmeni" type="java.lang.Object"/>
-                <Column editable="false" title="Pismeni" type="java.lang.Object"/>
-                <Column editable="false" title="Kona&#x10d;no" type="java.lang.Object"/>
-                <Column editable="false" title="Polo&#x17e;eno" type="java.lang.Object"/>
-                <Column editable="false" title="Upisano" type="java.lang.Object"/>
+              <Table columnCount="8" rowCount="0">
+                <Column editable="false" title="Opis" type="java.lang.Object"/>
+                <Column editable="false" title="Datum" type="java.lang.Object"/>
+                <Column editable="false" title="Od" type="java.lang.Object"/>
+                <Column editable="false" title="Do" type="java.lang.Object"/>
+                <Column editable="false" title="Prostorija" type="java.lang.Object"/>
+                <Column editable="false" title="Lokacija" type="java.lang.Object"/>
+                <Column editable="false" title="Djelatnik" type="java.lang.Object"/>
+                <Column editable="false" title="Broj prisut." type="java.lang.Object"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
               <TableColumnModel selectionModel="0">
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                  <Title/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                  <Title/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
                 <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                   <Title/>
                   <Editor/>
@@ -172,6 +160,15 @@
       </Events>
     </Component>
     <Component class="javax.swing.JComboBox" name="jComboBox1">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Segoe UI" size="14" style="0"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jComboBox1ItemStateChanged"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBox1ActionPerformed"/>
+      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>

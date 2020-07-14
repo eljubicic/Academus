@@ -8,6 +8,7 @@ package com.academus.kod;
 
 
 
+import com.academus.tablice.DatumVrijeme;
 import com.academus.tablice.Smjer;
 import com.academus.tablice.Kolegij;
 import com.academus.tablice.KolegijSmjerOdjel;
@@ -28,6 +29,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.sql.Time;
 
 
 
@@ -542,14 +544,23 @@ public final class BazaPodataka {
   }
   
       
-  public ArrayList <Nastava> dohvatiKolegijNastava(int vrstaNastave,String idKolegij)
+  public ArrayList <Nastava> dohvatiKolegijNastava(String tipNastave,String idKolegij)
   {
       ArrayList <Nastava> nastave = new ArrayList();
- 
+System.out.println(tipNastave+" "+idKolegij);
       try { 
           
+          int indexZareza = tipNastave.indexOf('-');
+          String tipNastaveNaziv =tipNastave.substring(0,indexZareza);
+          tipNastaveNaziv = tipNastaveNaziv.trim();
  
-             sql = " " ;
+          sql = "select nastava.*, lokacija.naziv as prostorija, CONCAT(lokacija.adresa,', ',mjesto.naziv) as lokacija," 
+          + " CONCAT(djelatnik.prezime,' ',djelatnik.ime) as djelatnik from nastava inner join tipNastava on tipnastava.idTip = nastava.idTip "
+          + " inner join lokacija on lokacija.idLokacija = nastava.idLokacija inner join mjesto on lokacija.pbrMjesto = mjesto.pbr inner join djelatnik on "
+          + " nastava.oibDjelatnik = djelatnik.oib "
+          + " where tipNastava.naziv = '"+ tipNastaveNaziv +"' and nastava.idKolegij = "+idKolegij
+          + " order by nastava.opis, datumOdrzavanja,vrijemeOdrzavanja,vrijemeOdrzavanjaDo,djelatnik,prostorija,lokacija ";
+
      
      
      try {
@@ -560,23 +571,27 @@ public final class BazaPodataka {
       this.konekcijaBaze();
      }
      
-     rs = dbStmnt.executeQuery(sql);
-     
+     rs = dbStmnt.executeQuery(sql); 
      
        boolean records = false;
        while (rs.next()) {
            
         
-         String vrsta = rs.getString("vrsta");
+         String opis = rs.getString("nastava.opis");
+         Date datumOdr = rs.getDate("nastava.datumOdrzavanja");
          
+         Time vrijemeOdr = rs.getTime("nastava.vrijemeOdrzavanja");
+         Time vrijemeOdrDo = rs.getTime("nastava.vrijemeOdrzavanjaDo");
          
-         Date datumPolaganja = rs.getDate("ocjena.datumPolaganja");
-         Date datumUnosa = rs.getDate("ocjena.datumUnosa");
-        
+         String prostorija = rs.getString("prostorija");
+         String lokacija = rs.getString("lokacija");
+         String djelatnik = rs.getString("djelatnik");
          
-         
-        Nastava nastava = new Nastava();
-       
+         int brPrisutnih = rs.getInt("nastava.brojPrisutnih");
+                
+          DatumVrijeme datumVrijeme = new DatumVrijeme(datumOdr,vrijemeOdr,vrijemeOdrDo);
+          
+          Nastava nastava = new Nastava(opis, datumVrijeme, prostorija, lokacija, djelatnik, brPrisutnih);      
         nastave.add(nastava);
         
         }

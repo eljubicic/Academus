@@ -217,6 +217,11 @@ public class FormaOdaberiKolegij extends javax.swing.JDialog {
        {
            Main.formaPrijava.glavnaforma.getjButton2().setEnabled(true);
        }
+        
+        if(!Main.formaPrijava.glavnaforma.getjButton1().isEnabled())
+       {
+           Main.formaPrijava.glavnaforma.getjButton1().setEnabled(true);
+       }
        
        
        
@@ -227,7 +232,7 @@ public class FormaOdaberiKolegij extends javax.swing.JDialog {
     private void tablicaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablicaMousePressed
             int i = tablica.getSelectedRow();
       TableModel model = tablica.getModel();
-      jLabel2.setText(model.getValueAt(i,0).toString()+ " ["+model.getValueAt(i,1).toString()+"] ");
+      jLabel2.setText(model.getValueAt(i,0).toString());
       
       odabraniKolegijID = model.getValueAt(i,1).toString();
       nazivOdabraniKolegij = model.getValueAt(i,0).toString();

@@ -7,24 +7,13 @@ package com.academus.forme;
 
 
 import com.academus.kod.Main;
-import com.academus.tablice.Student;
+import com.academus.tablice.Nastava;
 import com.academus.tablice.TipNastava;
-import java.awt.Color;
-import java.awt.Font;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableModel;
 
 /**
  *
@@ -34,14 +23,25 @@ public class FormaKolegijNastava extends javax.swing.JDialog {
 
      
      String odabraniKolegijID = Main.formaPrijava.glavnaforma.odabraniKolegijID;
+     String odabraniTipNastave;
+     
+     boolean slusaj = false;
          
          
     public FormaKolegijNastava() {
         initComponents();
          this.setLocationRelativeTo(null);
-         this.setModal(true);        
+         this.setModal(true);    
+        napuniComboBox();
+        napuniTablicu();
+     
+    }
     
-
+    
+    
+    public void napuniComboBox()
+    {
+    
     ArrayList <TipNastava> tipoviNastave = Main.db.dohvatiTipNastave();
    
     if(tipoviNastave.isEmpty())
@@ -57,22 +57,59 @@ public class FormaKolegijNastava extends javax.swing.JDialog {
             if(tipoviNastave.get(i).isObavezno())
             {
                 labela += " - obavez. ";
+               
             }
             else
             {
                 labela += " - neobavez. ";
+                
             }
             
             jComboBox1.addItem(labela);
   
         }
+        
         jComboBox1.setSelectedIndex(0);
+        odabraniTipNastave = jComboBox1.getSelectedItem().toString(); 
+        System.out.println("ODABRANI TIP NASTAVE " +odabraniTipNastave);
+        slusaj = true;
     }
     
+    }
+    
+    public void napuniTablicu()
+    {
+        ArrayList <Nastava> podaci = Main.db.dohvatiKolegijNastava(odabraniTipNastave,odabraniKolegijID);
+        
+        DefaultTableModel model = (DefaultTableModel) this.tablica.getModel();
+        
+        Object [] row = new Object [8];
+        
+        for(int i=0;i<podaci.size();i++)
+        {
+            row[0]=podaci.get(i).getOpis();
+            row[1]=podaci.get(i).getDatumVrijeme().getDatum1();
+            row[2]=podaci.get(i).getDatumVrijeme().getVrijeme1();
+            row[3]=podaci.get(i).getDatumVrijeme().getVrijeme2();
+            row[4]=podaci.get(i).getProstorija();
+            row[5]=podaci.get(i).getLokacija();
+            row[6]=podaci.get(i).getDjelatnik();
+            row[7]=podaci.get(i).getBrPrisutnih();
+            
+            model.addRow(row);
+        }
+        
+          
+        }
+        
+        public void ocistiTablicu()
+        {
+        DefaultTableModel model = (DefaultTableModel) tablica.getModel();
+        model.setRowCount(0); 
+        }
        
         
-      
-    }
+  
 
  
 
@@ -101,11 +138,11 @@ public class FormaKolegijNastava extends javax.swing.JDialog {
 
             },
             new String [] {
-                "R.br.", "Jmbag", "Prezime", "Ime", "Vrsta", "Usmeni", "Pismeni", "Konačno", "Položeno", "Upisano"
+                "Opis", "Datum", "Od", "Do", "Prostorija", "Lokacija", "Djelatnik", "Broj prisut."
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -135,6 +172,18 @@ public class FormaKolegijNastava extends javax.swing.JDialog {
             }
         });
 
+        jComboBox1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jComboBox1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox1ItemStateChanged(evt);
+            }
+        });
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -144,7 +193,7 @@ public class FormaKolegijNastava extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 862, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
@@ -179,6 +228,21 @@ public class FormaKolegijNastava extends javax.swing.JDialog {
     private void tablicaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablicaMousePressed
         // TODO add your handling code here:
     }//GEN-LAST:event_tablicaMousePressed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
+     
+    if(slusaj == true)
+    {
+    odabraniTipNastave = jComboBox1.getSelectedItem().toString();
+    ocistiTablicu();
+    napuniTablicu();
+    }
+   
+    }//GEN-LAST:event_jComboBox1ItemStateChanged
 
     /**
      * @param args the command line arguments

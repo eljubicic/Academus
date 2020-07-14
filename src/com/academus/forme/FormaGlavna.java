@@ -101,6 +101,15 @@ public class FormaGlavna extends javax.swing.JFrame{
     public void setjButton2(JButton jButton2) {
         this.jButton2 = jButton2;
     }
+
+    public JButton getjButton1() {
+        return jButton1;
+    }
+
+    public void setjButton1(JButton jButton1) {
+        this.jButton1 = jButton1;
+    }
+    
     
     
     
@@ -631,6 +640,7 @@ public class FormaGlavna extends javax.swing.JFrame{
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
      FormaKolegijNastava nastava= new FormaKolegijNastava();
+        
         nastava.setVisible(true);
          JTableHeader header = nastava.getTablica().getTableHeader();
            
