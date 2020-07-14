@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.academus.kod;
+package com.academus.tablice;
 
 /**
  *
@@ -13,6 +13,35 @@ public class Korisnik {
     private String korisnickoIme;
     private String lozinka;
     private boolean admin;
+
+    private Djelatnik djelatnik = new Djelatnik();
+    
+    
+    public Korisnik()
+    {
+        //Default ctor
+    }
+
+
+    
+    public Korisnik(String korisnickoIme,String lozinka,boolean admin,Djelatnik dj)
+    {
+        this.korisnickoIme = korisnickoIme;
+        this.lozinka = lozinka;
+        this.admin = admin;
+        this.djelatnik = dj;
+        
+        
+    }
+    public Djelatnik getDjelatnik() {
+        return djelatnik;
+    }
+
+    public void setDjelatnik(Djelatnik djelatnik) {
+        this.djelatnik = djelatnik;
+    }
+
+
 
     public void setKorisnickoIme(String korisnickoIme) {
         this.korisnickoIme = korisnickoIme;

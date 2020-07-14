@@ -6,6 +6,7 @@
 package com.academus.forme;
 
 
+import com.academus.tablice.Korisnik;
 import com.academus.kod.Main;
 import com.academus.tekst.JTextFieldLimit;
 import java.text.SimpleDateFormat;
@@ -22,14 +23,13 @@ import javax.swing.JOptionPane;
  *
  * @author Emanuel
  */
-public class FormaPrijava extends javax.swing.JFrame {
+public class FormaPrijava extends javax.swing.JFrame{
 
     /**
      * Creates new form Prijava
      */
     public FormaPrijava() {
         initComponents();
-        
        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy.");  
        Date date = new Date();  
        jLabel4.setText(formatter.format(date));
@@ -37,7 +37,7 @@ public class FormaPrijava extends javax.swing.JFrame {
     }
     
     //Objekti forme
-    final FormaGlavna glavnaforma = new FormaGlavna();
+    FormaGlavna glavnaforma;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -62,7 +62,7 @@ public class FormaPrijava extends javax.swing.JFrame {
 
         jTextField1.setText("jTextField1");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Academus");
         setAlwaysOnTop(true);
         setAutoRequestFocus(false);
@@ -72,9 +72,14 @@ public class FormaPrijava extends javax.swing.JFrame {
         setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         setResizable(false);
         setSize(new java.awt.Dimension(200, 350));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         prijavaGumb.setBackground(new java.awt.Color(255, 255, 255));
-        prijavaGumb.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        prijavaGumb.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         prijavaGumb.setForeground(new java.awt.Color(141, 0, 51));
         prijavaGumb.setText("PRIJAVA");
         prijavaGumb.setBorder(null);
@@ -86,15 +91,15 @@ public class FormaPrijava extends javax.swing.JFrame {
         });
 
         korisnikLabel.setBackground(new java.awt.Color(255, 255, 255));
-        korisnikLabel.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        korisnikLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         korisnikLabel.setForeground(new java.awt.Color(141, 0, 51));
         korisnikLabel.setText("KORISNIK");
 
-        lozinkaLabel.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        lozinkaLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lozinkaLabel.setForeground(new java.awt.Color(141, 0, 51));
         lozinkaLabel.setText("LOZINKA");
 
-        korisnikInput.setFont(new java.awt.Font("Roboto", 1, 16)); // NOI18N
+        korisnikInput.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
         korisnikInput.setDocument(new com.academus.tekst.JTextFieldLimit(12));
         korisnikInput.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(141, 0, 51), 3));
         korisnikInput.addActionListener(new java.awt.event.ActionListener() {
@@ -104,81 +109,79 @@ public class FormaPrijava extends javax.swing.JFrame {
         });
 
         lozinkaInput.setDocument(new JTextFieldLimit(12) );
-        lozinkaInput.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
+        lozinkaInput.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         lozinkaInput.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(141, 0, 51), 3));
         lozinkaInput.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com.academus.resursi/academus.PNG"))); // NOI18N
 
-        jLabel2.setFont(new java.awt.Font("Roboto", 1, 11)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(141, 0, 51));
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(141, 0, 51));
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(141, 0, 51));
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel4.setText("Datum.");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(57, 57, 57)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(145, 145, 145)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(korisnikLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lozinkaLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lozinkaInput, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(korisnikInput, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(prijavaGumb, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(255, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(100, 100, 100)
-                .addComponent(jLabel1)
-                .addGap(100, 100, 100))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 525, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(69, 69, 69))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(47, 47, 47)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(145, 145, 145)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(korisnikLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)
-                                    .addComponent(lozinkaLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lozinkaInput, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(korisnikInput, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(prijavaGumb, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(41, 41, 41)
+                .addGap(40, 40, 40)
                 .addComponent(jLabel1)
-                .addGap(30, 30, 30)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(korisnikLabel)
-                    .addComponent(korisnikInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lozinkaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lozinkaInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(25, 25, 25)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(prijavaGumb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(14, 14, 14))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                .addComponent(jLabel2)
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(50, 50, 50)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(korisnikLabel)
+                            .addComponent(korisnikInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lozinkaInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lozinkaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(25, 25, 25)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                        .addComponent(prijavaGumb, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(47, 47, 47)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(203, 203, 203)
+                        .addComponent(jLabel4)))
+                .addGap(10, 10, 10))
         );
-
-        prijavaGumb.getAccessibleContext().setAccessibleName("PRIJAVA");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -186,6 +189,7 @@ public class FormaPrijava extends javax.swing.JFrame {
     private void prijavaGumbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prijavaGumbActionPerformed
        
      String korisnickoIme = this.getKorisnikInput().getText();
+    
      String lozinka = String.valueOf(this.getLozinkaInput().getPassword());
      
      if(korisnickoIme.isEmpty())
@@ -202,7 +206,7 @@ public class FormaPrijava extends javax.swing.JFrame {
      {  
  
      
-     int provjeriUnos = Main.db.getUsersAndPasswords(korisnickoIme, lozinka);
+     int provjeriUnos = Main.db.dohvatiKorisnik(korisnickoIme, lozinka);
      
         switch (provjeriUnos) {
             case 0:
@@ -217,10 +221,13 @@ public class FormaPrijava extends javax.swing.JFrame {
                 break;
             case 1:
                 JOptionPane.showMessageDialog(this,"Uspješna prijava!","Prijava korisnika", JOptionPane.INFORMATION_MESSAGE);
-                    
-                 glavnaforma.setVisible(true);
-                 glavnaforma.setLocationRelativeTo(null);
+                
                  this.dispose();
+                 glavnaforma = new FormaGlavna();
+                 
+                 glavnaforma.prikaziKomponente();
+                 
+                 
                 break;
             
         }
@@ -280,6 +287,10 @@ public class FormaPrijava extends javax.swing.JFrame {
     private void korisnikInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_korisnikInputActionPerformed
         
     }//GEN-LAST:event_korisnikInputActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        Main.zatvaranjeDijalog(this);
+    }//GEN-LAST:event_formWindowClosing
 
  
     

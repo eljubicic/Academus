@@ -27,7 +27,7 @@ public class JTextFieldLimit extends PlainDocument {
         else if((getLength() + str.length() <= limit ))
         {
             
-            
+            str=str.toLowerCase();
             super.insertString(offset,str, set);
             
             

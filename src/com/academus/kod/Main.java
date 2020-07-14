@@ -5,7 +5,11 @@
  */
 package com.academus.kod;
 
+import com.academus.tablice.Korisnik;
 import com.academus.forme.FormaPrijava;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+import javax.swing.JFrame;
 
 
 /**
@@ -15,8 +19,12 @@ import com.academus.forme.FormaPrijava;
 
 public class Main {
 
-    public static Korisnik korisnik = new Korisnik();
+    private static Korisnik korisnik = new Korisnik();
+    
     public static BazaPodataka db = new BazaPodataka();
+    public static FormaPrijava formaPrijava;
+    
+    
     
   
      public static void main(String args[]) {
@@ -36,23 +44,81 @@ public class Main {
         
         java.awt.EventQueue.invokeLater(() -> {
             
-            // Uspostava konekcije s bazom podataka
-           int dbStatus =  Main.db.connectDatabase(); 
+           
+            pokretanjePrijave();
+                
+       });    
+        
+    } 
+     
+     public static void pokretanjePrijave()
+     {
+          // Uspostava konekcije s bazom podataka
+           int dbStatus =  Main.db.konekcijaBaze(); 
          
             
             //Započni formu FormaPrijava
-            final FormaPrijava formaPrijava =  new FormaPrijava();
+            formaPrijava =  new FormaPrijava();
             formaPrijava.setVisible(true);
             formaPrijava.setLocationRelativeTo(null);  
-            if(dbStatus == 1)
-            {
+            if(dbStatus == 1){
                formaPrijava.getjLabel2().setText("Baza podataka uspješno povezana.");
-           }
-            
-       });
-        
-        
+            }
+            else{
+               formaPrijava.getjLabel2().setText("BAZA PODATAKA NIJE POVEZANA!");
+            }
+     }
+     
+     
+     public static void zatvaranjeDijalog(JDialog frame){ 
+         
+         if (JOptionPane.showConfirmDialog(frame, 
+            "Jeste li sigurni da želite napustiti Academus?", "Izlaz", 
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
+            Main.db.zatvaranjeKonekcije();
+            System.exit(0);
+            }
+         else{
+             // Ne učini ništa
+         }     
+         
+         
     }
+        public static void zatvaranjeDijalog(JFrame frame){ 
+         
+         if (JOptionPane.showConfirmDialog(frame, 
+            "Jeste li sigurni da želite napustiti Academus?", "Izlaz", 
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
+            Main.db.zatvaranjeKonekcije();
+            System.exit(0);
+            }
+         else{
+             // Ne učini ništa
+         }     
+         
+         
+    }
+     
+
+    public static Korisnik getKorisnik() {
+        return korisnik;
+    }
+
+    public static void setKorisnik(Korisnik korisnik) {
+        Main.korisnik = korisnik;
+    }
+
+    public static BazaPodataka getDb() {
+        return db;
+    }
+
+    public static void setDb(BazaPodataka db) {
+        Main.db = db;
+    }
+     
+     
      
      
       
