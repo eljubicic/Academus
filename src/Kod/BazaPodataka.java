@@ -45,8 +45,8 @@ public final class BazaPodataka {
 
  private final String DRIVER = "com.mysql.jdbc.Driver";
  private final String URL = "jdbc:mysql://localhost:3306/academus";
- private final String USER = "root";
- private final String PASSWORD = "emanuel77";
+ private final String USER = "korisnikbaze";
+ private final String PASSWORD = "academus2020";
 
  private Connection dbCon;
  private PreparedStatement dbStmnt;
@@ -58,7 +58,8 @@ public final class BazaPodataka {
   int status = 0;
   try {
   Class.forName(DRIVER);
-  dbCon = DriverManager.getConnection(URL, USER, PASSWORD);
+
+  dbCon = DriverManager.getConnection(URL,USER,PASSWORD);
   dbCon.setAutoCommit(false);
   status = 1;
  
@@ -71,6 +72,7 @@ public final class BazaPodataka {
   catch (SQLException ex) {
    ex.printStackTrace(System.out);
    System.out.println("Problem s uspostavljanjem konekcije baze podataka!");
+   
    status = -2;
   }
   return status;
@@ -79,10 +81,18 @@ public final class BazaPodataka {
  public  void zatvaranjeKonekcije()
  {
      try{
+         try{
      dbCon.close();
      System.out.println("Konekcija s bazom podataka uspješno zatvorena.");
      }
-     catch(SQLException ex)
+         catch(Exception e)
+         {
+             Main.formaPrijava.dispose();
+             System.exit(1);
+         }
+     
+     }
+     catch(Exception ex)
      {
         System.out.println("Problem sa zatvaranjem konekcije baze podataka."); 
      }
