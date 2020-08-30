@@ -7,6 +7,8 @@ package Kod;
 
 import KlaseTablica.Korisnik;
 import Forme.FormaPrijava;
+import java.net.URL;
+import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JFrame;
@@ -24,6 +26,11 @@ public class Main {
     public static BazaPodataka db = new BazaPodataka();
     public static FormaPrijava formaPrijava;
     
+
+         URL iconURL = getClass().getResource("./Resursi/Academus.ico.ico");
+
+         ImageIcon icon = new ImageIcon(iconURL);
+        
     
     
   

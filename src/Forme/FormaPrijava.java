@@ -30,6 +30,8 @@ public class FormaPrijava extends javax.swing.JFrame{
      */
     public FormaPrijava() {
         
+   System.out.println(System.getProperty("java.version"));
+        
        initComponents();
        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy.");  
        Date date = new Date();  

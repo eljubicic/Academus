@@ -321,9 +321,9 @@ public final class BazaPodataka {
       ArrayList <Djelatnik> djelatnici = new ArrayList();
       
       try { 
-     sql =  "select djelatnik.prezime,djelatnik.ime,djelatnik.titula,djelatnik.adresaPreb,djelatnik.adresaBor,CONCAT(mjesto_p.pbr,' ',mjesto_p.naziv) as preb,"
-             + " CONCAT(mjesto_b.pbr,' ',mjesto_b.naziv) as bor from djelatnik inner join mjesto mjesto_p on djelatnik.pbrMjestoPreb = mjesto_p.pbr "
-             + " inner join mjesto mjesto_b on djelatnik.pbrMjestoBor = mjesto_b.pbr  ORDER BY 1,2,6,7,4,5,3";
+     sql =  "select djelatnik.prezime,djelatnik.ime,djelatnik.titula,djelatnik.adresaPreb,djelatnik.adresaBor,CONCAT(mjesto_p.postBr,' ',mjesto_p.naziv) as preb,"
+             + " CONCAT(mjesto_b.postBr,' ',mjesto_b.naziv) as bor from djelatnik inner join mjesto mjesto_p on djelatnik.idMjestoPreb = mjesto_p.id "
+             + " inner join mjesto mjesto_b on djelatnik.idMjestoBor = mjesto_b.id  ORDER BY 1,2,6,7,4,5,3";
      
      try {
       dbStmnt = dbCon.prepareStatement(sql);
@@ -377,9 +377,9 @@ public final class BazaPodataka {
       ArrayList <Student> studenti = new ArrayList();
       
       try { 
-     sql =  "select student.prezime,student.ime,student.jmbag,student.adresaPreb,student.adresaBor,CONCAT(mjesto_p.pbr,' ',mjesto_p.naziv) as preb,"
-             + " CONCAT(mjesto_b.pbr,' ',mjesto_b.naziv) as bor from student inner join mjesto mjesto_p on student.pbrMjestoPreb = mjesto_p.pbr "
-             + " inner join mjesto mjesto_b on student.pbrMjestoBor = mjesto_b.pbr  ORDER BY 1,2,6,7,4,5,3";
+     sql =  "select student.prezime,student.ime,student.jmbag,student.adresaPreb,student.adresaBor,CONCAT(mjesto_p.postBr,' ',mjesto_p.naziv) as preb,"
+             + " CONCAT(mjesto_b.postBr,' ',mjesto_b.naziv) as bor from student inner join mjesto mjesto_p on student.idMjestoPreb = mjesto_p.id "
+             + " inner join mjesto mjesto_b on student.idMjestoBor = mjesto_b.id ORDER BY 1,2,6,7,4,5,3";
      
      try {
       dbStmnt = dbCon.prepareStatement(sql);
@@ -800,7 +800,7 @@ public final class BazaPodataka {
       
       try { 
           
-             sql = " SELECT lokacija.idLokacija,lokacija.naziv,lokacija.adresa,mjesto.naziv from lokacija inner join  mjesto on mjesto.pbr = lokacija.pbrMjesto  "
+             sql = " SELECT lokacija.idLokacija,lokacija.naziv,lokacija.adresa,mjesto.naziv from lokacija inner join  mjesto on mjesto.id = lokacija.idMjesto  "
                      + "order by lokacija.naziv,lokacija.adresa,mjesto.naziv,lokacija.idLokacija ";
      
      
@@ -868,7 +868,7 @@ public final class BazaPodataka {
  
           sql = "select nastava.*, lokacija.naziv as prostorija, CONCAT(lokacija.adresa,', ',mjesto.naziv) as lokacija," 
           + " CONCAT(djelatnik.prezime,' ',djelatnik.ime) as djelatnik from nastava inner join tipNastava on tipnastava.idTip = nastava.idTip "
-          + " inner join lokacija on lokacija.idLokacija = nastava.idLokacija inner join mjesto on lokacija.pbrMjesto = mjesto.pbr inner join djelatnik on "
+          + " inner join lokacija on lokacija.idLokacija = nastava.idLokacija inner join mjesto on lokacija.idMjesto = mjesto.id inner join djelatnik on "
           + " nastava.oibDjelatnik = djelatnik.oib "
           + " where tipNastava.naziv = '"+ tipNastaveNaziv +"' and nastava.idKolegij = "+idKolegij +"  and tipNastava.obaveznoPohadjanje = "+obaveznoInt
           + "  order by datumOdrzavanja,vrijemeOdrzavanja,vrijemeOdrzavanjaDo,nastava.opis,djelatnik,prostorija,lokacija ";
@@ -947,7 +947,7 @@ public final class BazaPodataka {
  
           sql = "select nastava.*, lokacija.naziv as prostorija, CONCAT(lokacija.adresa,', ',mjesto.naziv) as lokacija," 
           + " CONCAT(djelatnik.prezime,' ',djelatnik.ime) as djelatnik from nastava inner join tipNastava on tipnastava.idTip = nastava.idTip "
-          + " inner join lokacija on lokacija.idLokacija = nastava.idLokacija inner join mjesto on lokacija.pbrMjesto = mjesto.pbr inner join djelatnik on "
+          + " inner join lokacija on lokacija.idLokacija = nastava.idLokacija inner join mjesto on lokacija.idMjesto = mjesto.id inner join djelatnik on "
           + " nastava.oibDjelatnik = djelatnik.oib "
           + " where tipNastava.naziv = '"+ tipNastaveNaziv +"' and nastava.idKolegij = "+idKolegij +"  and tipNastava.obaveznoPohadjanje = "+obaveznoInt
           + "  order by datumOdrzavanja,vrijemeOdrzavanja,vrijemeOdrzavanjaDo,nastava.opis,djelatnik,prostorija,lokacija ";
@@ -1175,21 +1175,24 @@ public final class BazaPodataka {
       
         public void unosPrijave(String kime)
   {
-
-      
        try { 
       sql = " INSERT INTO prijava(idKorisnik,datumPrijave) "
-          + " SELECT idKorisnik,NOW() from korisnik"
-          + " where korisnickoIme = '" +kime+"' ";
+          + " (SELECT idKorisnik,NOW() from korisnik"
+          + " where korisnickoIme = ? );";
       
+      dbStmnt = dbCon.prepareStatement(sql);
+      
+       dbStmnt.setString(1, kime); 
        
+     System.out.println(" UNOS "+kime+" u prijavu.");
+     dbCon.setAutoCommit(false);
     dbStmnt.execute();
     dbCon.commit();
 
 
     } catch (SQLException ex) {
      ex.printStackTrace();
-     System.out.println("Problem s unosom u tablicu");
+     System.out.println("Problem s unosom prijave u tablicu");
     }
        
      
